@@ -1,21 +1,71 @@
+// class User {
+//   name: string;
+//   private age: number;
+
+//   constructor(name: string, age: number) {}
+// }
+
+interface Greetable {
+  name: string;
+}
+
+interface Printable {
+  print(): void;
+}
+
+class User implements Greetable, Printable {
+  constructor(public name: string, private age: number) {}
+
+  print() {
+    console.log(this.age);
+  }
+}
+
+class Admin extends User {
+  constructor(name: string, age: number, private permissions: string[]) {
+    super(name, age);
+  }
+}
+
+const user = new User('Max', 30);
+console.log(user.name);
+
 const num1Input = document.getElementById('num1') as HTMLInputElement;
 const num2Input = document.getElementById('num2') as HTMLInputElement;
 // const num2Input = <HTMLInputElement>document.getElementById('num2');
-const buttonElement = document.querySelector('button');
+const buttonElement = document.querySelector('button')!;
 
 function add(a: number, b: number) {
   return a + b;
 }
 
-function printResult(result) {
-  console.log(result);
+type PrintMode = 'console' | 'alert';
+enum OutputMode {
+  CONSOLE,
+  ALERT,
+}
+
+function printResult(result: number, printMode: OutputMode) {
+  debugger;
+  if (printMode === OutputMode.CONSOLE) {
+    console.log(result);
+  } else if (printMode === OutputMode.ALERT) {
+    alert(result);
+  }
 }
 
 // const result = add(5, 3);
 
 // printResult(result);
 
-const results: { res: number; print: () => void }[] = [];
+interface CalculationContainer {
+  res: number;
+  print(): void;
+}
+
+type CalculationResults = CalculationContainer[];
+
+const results: Array<CalculationContainer> = [];
 
 buttonElement.addEventListener('click', () => {
   const num1 = +num1Input.value;
@@ -28,6 +78,14 @@ buttonElement.addEventListener('click', () => {
     },
   };
   results.push(resultContainer);
-  printResult(results);
-  results[0].print();
+  // results[0].print();
+  printResult(result, OutputMode.CONSOLE);
+  printResult(result, OutputMode.ALERT);
 });
+
+function logAndEcho<T>(val: T) {
+  console.log(val);
+  return val;
+}
+
+logAndEcho<string>('Hi there!').split(' ');
