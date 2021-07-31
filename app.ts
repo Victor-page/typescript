@@ -46,7 +46,6 @@ enum OutputMode {
 }
 
 function printResult(result: number, printMode: OutputMode) {
-  debugger;
   if (printMode === OutputMode.CONSOLE) {
     console.log(result);
   } else if (printMode === OutputMode.ALERT) {
